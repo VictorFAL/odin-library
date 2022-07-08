@@ -9,7 +9,33 @@
         <script src="./script.js" defer></script>
         <title>Library</title>
     </head>
+
     <body>
-        
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Read</th>
+            </tr>
+        </table>
+
+        <button type="button" id="btn-show">Add Book</button>
+
+        <form>
+            <label for="title">Title</label>
+            <input id="title">
+            <label for="author">Author</label>
+            <input id="author">
+            <label for="pages">Pages</label>
+            <input type="number" id="pages">
+            <label for="read">Read</label>
+            <select name="read" id="read">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+            </select>
+            <button type="button" id="btn-add">Add</button>
+        </form>
+
     </body>
 </html>
