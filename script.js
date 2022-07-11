@@ -27,7 +27,7 @@ function buildTable() {
                             <th>Read</th>
                         </tr>`;
     
-    library.forEach(book => {
+    library.forEach((book, index) => {
         table.innerHTML += `<tr>
                                 <td>
                                     ${book.title}
@@ -41,7 +41,20 @@ function buildTable() {
                                 <td>
                                     ${book.read}
                                 </td>
+                                <td>
+                                    <button class="btn-del" data-index="${index}">DEL</button>
+                                </td>
                             </tr>`
+    });
+
+    // Delete book by pressing the button
+    let btnsDel = document.querySelectorAll('.btn-del');
+
+    btnsDel.forEach(btn => {
+        btn.addEventListener('click', () => {
+            library.splice(btn.dataset.index, 1);
+            buildTable()
+        });
     });
 }
 
@@ -69,7 +82,6 @@ btnAdd.addEventListener('click', () => {
     btnShow.style.display = 'block';
     form.style.display = 'none';
 });
-
 
 // Show table headers
 buildTable();
