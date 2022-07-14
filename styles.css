@@ -18,3 +18,7 @@ form {
 table {
     margin-bottom: 10px;
 }
+
+th, th {
+    padding: 5px;
+}

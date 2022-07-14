@@ -11,6 +11,10 @@ Book.prototype.info = function() {
     return `${this.title} by ${this.author} | ${this.pages} pages | read: ${this.read}`;
 }
 
+Book.prototype.toggleRead = function() {
+    this.read == 'yes' ? this.read = 'no' : this.read = 'yes';
+}
+
 // Add book obj to array
 function addBook(title, author, pages, read) {
     let book = new Book(title, author, pages, read);
@@ -28,7 +32,7 @@ function buildTable() {
                         </tr>`;
     
     library.forEach((book, index) => {
-        table.innerHTML += `<tr>
+        table.innerHTML += `<tr data-index="${index}">
                                 <td>
                                     ${book.title}
                                 </td>
@@ -39,22 +43,69 @@ function buildTable() {
                                     ${book.pages}
                                 </td>
                                 <td>
-                                    ${book.read}
+                                    <button class="btn-read">${book.read}</button>
                                 </td>
                                 <td>
-                                    <button class="btn-del" data-index="${index}">DEL</button>
+                                    <button class="btn-del">DEL</button>
                                 </td>
-                            </tr>`
+                            </tr>`;
     });
 
     // Delete book by pressing the button
     let btnsDel = document.querySelectorAll('.btn-del');
 
-    btnsDel.forEach(btn => {
+    btnsDel.forEach((btn, index) => {
         btn.addEventListener('click', () => {
-            library.splice(btn.dataset.index, 1);
+            library.splice(index, 1);
             buildTable()
         });
+    });
+
+    // Read button toggle
+    let btnsRead = document.querySelectorAll('.btn-read');
+    btnsRead.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            library[index].toggleRead();
+            buildRow(index);
+        });
+    });
+}
+
+// Refresh row
+function buildRow(index) {
+    let row = document.querySelector(`[data-index="${index}"]`);
+    let book = library[index];
+
+    row.innerHTML = `<td>
+                        ${book.title}
+                    </td>
+                    <td>
+                        ${book.author}
+                    </td>
+                    <td>
+                        ${book.pages}
+                    </td>
+                    <td>
+                        <button class="btn-read">${book.read}</button>
+                    </td>
+                    <td>
+                        <button class="btn-del">DEL</button>
+                    </td>`;
+    
+    // Read button toggle
+    let btnRead = row.querySelector('.btn-read');
+
+    btnRead.addEventListener('click', () => {
+        book.toggleRead();
+        buildRow(index);
+    });
+
+    // Delete book by pressing the button
+    let btnDel = row.querySelector('.btn-del');
+
+    btnDel.addEventListener('click', () => {
+        library.splice(index, 1);
+        buildTable();
     });
 }
 
@@ -69,14 +120,14 @@ btnShow.addEventListener('click', () => {
 
 
 // Add form data to table
-const title = document.getElementById('title');
-const author = document.getElementById('author');
-const pages = document.getElementById('pages');
-const read = document.getElementById('read');
-
 const btnAdd = document.getElementById('btn-add');
 btnAdd.addEventListener('click', () => {
-    addBook(title.value, author.value, pages.value, read.value);
+    let title = document.getElementById('title').value;
+    let author = document.getElementById('author').value;
+    let pages = document.getElementById('pages').value;
+    let read = document.getElementById('read').value;
+
+    addBook(title, author, pages, read);
     buildTable();
 
     btnShow.style.display = 'block';
