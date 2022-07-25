@@ -1,18 +1,20 @@
 let library = [];
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-}
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 
-Book.prototype.info = function() {
-    return `${this.title} by ${this.author} | ${this.pages} pages | read: ${this.read}`;
-}
+    info() {
+        return `${this.title} by ${this.author} | ${this.pages} pages | read: ${this.read}`;
+    }
 
-Book.prototype.toggleRead = function() {
-    this.read == 'yes' ? this.read = 'no' : this.read = 'yes';
+    toggleRead() {
+        this.read == 'yes' ? this.read = 'no' : this.read = 'yes';
+    }
 }
 
 // Add book obj to array
